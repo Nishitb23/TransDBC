@@ -29,42 +29,6 @@ test_dataset = TensorDataset(X_test,  y_test)
 train_dataloader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
 test_dataloader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
 
-#model training function
-def train(model,n_epochs,trainloader,optimizer,lossfn,test_dataloader,onehotencoding=True,n_class=3):
-  predlist=torch.zeros(0,dtype=torch.long, device='cpu')
-  lbllist=torch.zeros(0,dtype=torch.long, device='cpu')
-  for epoch in range(n_epochs):  # loop over the dataset multiple times
-    running_loss = 0.0
-    for i, data in enumerate(trainloader, 0):
-      # get the inputs; data is a list of [inputs, labels]
-      inputs, labels = data   
-      # zero the parameter gradients
-      optimizer.zero_grad()
-      # forward + backward + optimize
-      #inputs = inputs.view(-1,1,64,9)
-      outputs = model(inputs)
-      #print(outputs.shape)
-      if onehotencoding == True:
-        #new_labels = torch.tensor(onehotvector[labels])
-        #print(labels.shape)
-        new_labels = torch.nn.functional.one_hot(labels.to(torch.int64),n_class).to(torch.float32)
-      else:
-        new_labels = labels
-      loss = lossfn(outputs, new_labels)
-
-      loss.backward()
-      optimizer.step()
-      # print statistics
-      running_loss += loss.item()
-      predlist=torch.cat([predlist,torch.argmax(outputs, dim=1).view(-1).cpu()])
-      lbllist=torch.cat([lbllist,labels.view(-1).cpu()])
-    print()
-    print("The training loss for epoch ",epoch+1," is: ",loss)
-    # Confusion matrix
-    
-    print("the training accuracy acheived is: ",accuracy_score(lbllist,predlist))
-    test(model,test_dataloader,lossfn)
-    
 lossfn = nn.CrossEntropyLoss()
 
 model = Net(input_size,ff_dim,n_head,n_classes,n_layers,dropout)
