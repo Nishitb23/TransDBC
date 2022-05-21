@@ -4,6 +4,8 @@ from torch.utils.data import TensorDataset
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from utils import *
+from model import *
 
 
 
