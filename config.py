@@ -2,7 +2,8 @@ class Params(object):
 
     def __init__(self, X_train, X_test):
         
-        self.n_channels = 9
+        self.n_channels = len(X_train[0][0])
+        self.time_steps = len(X_train[0])
         self.ff_dim = 32
         self.n_head = 3
         self.dropout = 0.1
