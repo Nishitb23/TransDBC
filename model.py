@@ -1,3 +1,5 @@
+import torch.nn as nn
+
 #model definition
 class Net(nn.Module):
     def __init__(self,input_size,ff_dim,n_head,n_classes,n_layers,dropout):
