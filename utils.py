@@ -2,6 +2,11 @@ import pickle
 import os
 from sklearn.model_selection import train_test_split
 import numpy as np
+import torch
+
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score
 
 #read data from pkl file
 def load_full_dataset(data_path='drive/MyDrive/data'):
