@@ -25,6 +25,36 @@ def load_full_dataset(data_path='drive/MyDrive/data'):
 
     return X_train, X_test, y_train, y_test
 
+#test function
+def test(model,testloader,lossfn,onehotencoding=True,n_class=3):
+  predlist=torch.zeros(0,dtype=torch.long, device='cpu')
+  lbllist=torch.zeros(0,dtype=torch.long, device='cpu')
+  running_loss = 0.0
+  for i, data in enumerate(testloader, 0):
+    # get the inputs; data is a list of [inputs, labels]
+    inputs, labels = data 
+    #inputs = inputs.view(-1,1,64,9)  
+    outputs = model(inputs)
+    if onehotencoding == True:
+      new_labels = torch.nn.functional.one_hot(labels.to(torch.int64),n_class).to(torch.float32)
+    else:
+      new_labels = labels
+    loss = lossfn(outputs, new_labels)
+    # print statistics
+    running_loss += loss.item()
+    predlist=torch.cat([predlist,torch.argmax(outputs, dim=1).view(-1).cpu()])
+    lbllist=torch.cat([lbllist,labels.view(-1).cpu()])
+  print()
+  print("The test is: ",loss)
+  conf_mat=confusion_matrix(lbllist.numpy(), predlist.numpy())
+  print("The test confusion matrix is: ",conf_mat)
+  class_accuracy=100*conf_mat.diagonal()/conf_mat.sum(1)
+  print("the test accuracy acheived is: ")
+  print(np.sum(class_accuracy)/n_class)
+  print("classification report:")
+  print(classification_report(lbllist.numpy(), predlist.numpy()))
+  print()
+
 #model training function
 def train(model,n_epochs,trainloader,optimizer,lossfn,test_dataloader,onehotencoding=True,n_class=3):
   predlist=torch.zeros(0,dtype=torch.long, device='cpu')
