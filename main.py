@@ -33,8 +33,8 @@ test_dataloader = DataLoader(dataset=test_dataset, batch_size=params.batch_size,
 
 lossfn = nn.CrossEntropyLoss()
 
-model = Net(params.n_channels,params.time_steps, params.ff_dim,params.n_head,params.n_classes,params.n_layers,params.dropout)
+model = Net(params.n_channels,params.time_steps, params.ff_dim,params.n_head,params.n_classes,params.n_layers,params.dropout, device)
 model.to(device)
-optimizer= optim.Adam(model.parameters(), lr= learning_rate)
+optimizer= optim.Adam(model.parameters(), lr= params.learning_rate)
 
-train(model,n_epochs,train_dataloader,optimizer,lossfn,test_dataloader)
+train(model,params.n_epochs,train_dataloader,optimizer,lossfn,test_dataloader)
