@@ -2,7 +2,7 @@ import torch.nn as nn
 
 #model definition
 class Net(nn.Module):
-    def __init__(self,n_channels, time_steps, ff_dim, n_head, n_classes, n_layers, dropout):
+    def __init__(self,n_channels, time_steps, ff_dim, n_head, n_classes, n_layers, dropout, device):
         super(Net, self).__init__()
 
         self.transformer_model = nn.Transformer(d_model=n_channels, nhead=n_head, num_encoder_layers=n_layers,
