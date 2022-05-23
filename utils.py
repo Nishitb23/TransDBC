@@ -9,7 +9,7 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import accuracy_score
 
 #read data from pkl file
-def load_full_dataset(data_path='drive/MyDrive/data'):
+def load_full_dataset(data_path='TransDBC/data'):
 
     with open(os.path.join(data_path, 'motorway_dataset.pkl'), 'rb') as f:
         save = pickle.load(f,encoding='bytes')
