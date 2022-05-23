@@ -1,6 +1,6 @@
 class Params(object):
 
-    def __init__(self, X_train, X_test):
+    def __init__(self, X_train):
         
         self.n_channels = len(X_train[0][0])
         self.time_steps = len(X_train[0])
